@@ -3,11 +3,11 @@ A Docker-ized Centos Content Host for Red Hat Satellite 6
 
 Installation
 ------------
-```docker pull jacobcallahan/content-host-d```
+```docker pull jacobcallahan/content-host-d:5```
 
 Usage
 -----
-```docker run <arguments> jacobcallahan/content-host-d```
+```docker run <arguments> jacobcallahan/content-host-d:5```
 
 Accepted Arguments
 ------------------
@@ -25,14 +25,14 @@ If you want to be able to use katello-agent, you must mount your /dev/log to the
 
 Examples
 --------
-```docker run -e "SATHOST=my.host.domain.com" jacobcallahan/content-host-d```
+```docker run -e "SATHOST=my.host.domain.com" jacobcallahan/content-host-d:5```
 
-```docker run -e "SATHOST=my.host.domain.com" -e "ENV=Dev" -e "AUTH=username/password" jacobcallahan/content-host-d```
+```docker run -e "SATHOST=my.host.domain.com" -e "ENV=Dev" -e "AUTH=username/password" jacobcallahan/content-host-d:5```
 
-```docker run -d -e "SATHOST=my.host.domain.com" -e "AK=sat62" -e "KILL=1" jacobcallahan/content-host-d```
+```docker run -d -e "SATHOST=my.host.domain.com" -e "AK=sat62" -e "KILL=1" jacobcallahan/content-host-d:5```
 
-```docker run -h DockerCH -v /dev/log:/dev/log -d -e "SATHOST=my.host.domain.com" -e "AK=sat62" jacobcallahan/content-host-d```
+```docker run -h DockerCH -v /dev/log:/dev/log -d -e "SATHOST=my.host.domain.com" -e "AK=sat62" jacobcallahan/content-host-d:5```
 
-```for i in {1..10}; do docker run -d -e "SATHOST=my.host.domain.com" -e "AK=sat62" -e "K=1" jacobcallahan/content-host-d; done;```
+```for i in {1..10}; do docker run -d -e "SATHOST=my.host.domain.com" -e "AK=sat62" -e "KILL=1" jacobcallahan/content-host-d:5; done;```
 
-```for i in {1..10}; do docker run -d -h Docker$i -e "SATHOST=my.host.domain.com" -e "AK=sat62" -e "K=1" jacobcallahan/content-host-d; done;```
+```for i in {1..10}; do docker run -d -h Docker$i -e "SATHOST=my.host.domain.com" -e "AK=sat62" jacobcallahan/content-host-d:5; done;```

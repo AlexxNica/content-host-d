@@ -4,6 +4,7 @@ MAINTAINER https://github.com/JacobCallahan
 ENV HOME /root
 WORKDIR /root
 
+ADD subman.repo /etc/yum.repos.d/
 RUN yum install -y subscription-manager openssh-server openssh-clients passwd
 RUN sleep .1 ; printf "%s\n" "dog8code" "dog8code" | passwd
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config

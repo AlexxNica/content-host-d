@@ -47,6 +47,6 @@ curl https://$SATHOST:9090/ssh/pubkey >> ~/.ssh/authorized_keys
 
 # if the KILL arg was not passed, then keep the container running
 if [ -z "$KILL" ]; then
-    echo "Starting goferd in foreground."
-    goferd -f
+    echo "Tailing rhsm.log."
+    tail -f /var/log/rhsm/rhsm.log
 fi

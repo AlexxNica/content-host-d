@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:6
 MAINTAINER https://github.com/JacobCallahan
 
 ENV HOME /root

@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Add custom facts to fake being a virt-who guest
+if [ -n "$UUID" ]; then
+    echo "Adding guest config with UUID: $UUID."
+    echo "{\"virt.host_type\": \"vmware\", \"virt.uuid\": \"$UUID\"}" > /etc/rhsm/facts/guest.facts
+fi
+
 # Add the Satellite's cert
 if [ -n "$SATHOST" ]; then
     echo "Adding satellite certificate http://$SATHOST/pub/katello-ca-consumer-latest.noarch.rpm"
@@ -32,6 +38,13 @@ else
     echo "No registration details specified. Registering to $ORG and Library..."
     subscription-manager register --org="$ORG" --environment="Library" $AUTH
 fi
+
+# If an activation key wasn't used, and we are a virt guest
+if [ -z "$AK"] && [ -n "$UUID" ]; then
+    echo "Attempting to auto-attach a subscription."
+    subscription-manager attach --auto
+fi
+
 
 # Install katello agent
 subscription-manager refresh

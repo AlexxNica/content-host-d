@@ -1,4 +1,4 @@
-import argparse, json, os, time, uuid
+import argparse, json, os, sys, time, uuid
 from collections import deque
 import docker
 
@@ -65,6 +65,7 @@ def virt_flood(host, tag, limit, image, org, hypervisors, guests):
         json.dump(virt_data, f)
     client = docker.Client(version='1.22')
     print ("Submitting virt-who report. Note: this will create a host: 'meeseeks'.")
+    client.pull('jacobcallahan/genvirt')
     container = client.create_container(
         image='jacobcallahan/genvirt',
         hostname='meeseeks',
@@ -80,7 +81,10 @@ def virt_flood(host, tag, limit, image, org, hypervisors, guests):
         time.sleep(2)
     client.remove_container(container, v=True, force=True)
     os.remove('/tmp/temp.json')
-    _ = input("Pausing for you to attach subscriptions to the new hypervisors.")
+    if sys.version_info.major < 3:
+        _ = raw_input("Pausing for you to attach subscriptions to the new hypervisors.")
+    else:
+   	_ = input("Pausing for you to attach subscriptions to the new hypervisors.")
 
     print("Starting guest creation.")
     active_hosts = []

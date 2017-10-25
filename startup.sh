@@ -3,7 +3,7 @@
 # Add custom facts to fake being a virt-who guest
 if [ -n "$UUID" ]; then
     echo "Adding guest config with UUID: $UUID."
-    echo "{\"virt.host_type\": \"vmware\", \"virt.uuid\": \"$UUID\"}" > /etc/rhsm/facts/guest.facts
+    echo "{\"virt.host_type\": \"vmware\", \"virt.uuid\": \"$UUID\", \"virt.is_guest\": \"True\"}" > /etc/rhsm/facts/guest.facts
 fi
 
 # Add the Satellite's cert

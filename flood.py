@@ -22,8 +22,9 @@ def gen_json(hypervisors, guests):
     return (virtwho, all_guest_list)
 
 def rm_container(client, containers):
-    del_container = containers.pop(0)
+    del_container = containers[0]
     client.remove_container(del_container['container'], v=True, force=True)
+    del containers[0]
     print ('Done with {0}'.format(del_container['name']))
 
 def host_flood(count, host, key, tag, name, limit, image, criteria, org):
@@ -84,7 +85,7 @@ def virt_flood(host, tag, limit, image, org, hypervisors, guests):
     if sys.version_info.major < 3:
         _ = raw_input("Pausing for you to attach subscriptions to the new hypervisors.")
     else:
-   	_ = input("Pausing for you to attach subscriptions to the new hypervisors.")
+   	    _ = input("Pausing for you to attach subscriptions to the new hypervisors.")
 
     print("Starting guest creation.")
     active_hosts = []
@@ -173,7 +174,7 @@ if __name__ == '__main__':
     else:
         print ("Starting content host creation with criteria {}.".format(criteria))
         host_flood(
-            args.count, args.host, args.key, args.tag,
+            args.count, args.satellite, args.key, args.tag,
             args.name, limit, image, criteria, org
         )
     print ("Finished content host creation.")

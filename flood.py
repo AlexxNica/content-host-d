@@ -65,13 +65,14 @@ def virt_flood(host, tag, limit, image, org, hypervisors, guests):
     with open('/tmp/temp.json', 'w') as f:
         json.dump(virt_data, f)
     client = docker.Client(version='1.22')
-    print ("Submitting virt-who report. Note: this will create a host: 'meeseeks'.")
+    temphost = 'meeseeks-{}'.format(str(uuid.uuid4()))
+    print ("Submitting virt-who report. Note: this will create a host: '{}'.".format(temphost))
     client.pull('jacobcallahan/genvirt')
     container = client.create_container(
         image='jacobcallahan/genvirt',
-        hostname='meeseeks',
+        hostname=temphost,
         detach=False,
-        environment={'SATHOST': host},
+        environment={'SATHOST': host, 'ORG': org},
         volumes='/tmp/temp.json',
         host_config=client.create_host_config(binds={
             '/tmp/temp.json': {'bind': '/tmp/temp.json', 'mode': 'ro'}
@@ -136,7 +137,7 @@ if __name__ == '__main__':
         "--guests", type=int,
         help="The number of guests per hypervisor to create.")
     parser.add_argument(
-        "--org", type=int, help="The organization to register hosts to "
+        "--org", type=str, help="The organization to register hosts to "
         "(defaults to 'Default_Organization'.")
     parser.add_argument(
         "--limit", type=int,
@@ -170,6 +171,7 @@ if __name__ == '__main__':
         host = "$(hostname)" if not args.satellite else args.satellite
         tag = 'guest' if not args.tag else args.tag
         guests = 'guest' if not args.guests else args.guests
+        org = None if not args.org else args.org
         virt_flood(host, tag, limit, image, org, args.hypervisors, guests)
     else:
         print ("Starting content host creation with criteria {}.".format(criteria))
